@@ -5,7 +5,7 @@ from django.db import models
 class CustomUser(AbstractUser):
     email=models.EmailField(unique=True)
     bio=models.TextField(blank=True)
-    avtar=models.ImageField(upload_to='users/avatars/',blank=True,null=True)
+    avatar=models.ImageField(upload_to='users/avatars/',blank=True,null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 

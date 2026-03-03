@@ -2,6 +2,11 @@ from django.db import models
 from django.conf import settings
 # Create your models here.
 class Post(models.Model):
+    """
+    Representing the blog created by the user
+    -post can be in draft or published status
+    -only the published post are visible to the all users 
+    """
 
     STATUS_CHOICES = (
         ("draft", "Draft"),
