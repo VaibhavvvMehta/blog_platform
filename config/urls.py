@@ -25,8 +25,8 @@ urlpatterns = [
     path("api/token/", obtain_auth_token),
     path("api/users/", include("users.urls")),
     path("api/posts/", include("posts.urls")),
-    #path("api/comments/", include("comments.urls")),
-    #path("api/tags/", include("tags.urls")),
+    path("api/comments/", include("comments.urls")),
+    path("api/tags/", include("tags.urls")),
 
     # urls for frontend 
     path("", include("frontend.urls")),
