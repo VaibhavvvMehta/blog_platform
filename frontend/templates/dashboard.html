@@ -1,52 +1,39 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Dashboard — BlogSpace{% endblock %}
+{% block title %}Blogs — BlogSpace{% endblock %}
 
 {% block content %}
-<script>
-    if (!localStorage.getItem('token')) window.location.href = '/login/';
-</script>
 
 <!-- Page Header -->
 <div class="bg-white border-b border-slate-100">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-slate-900">Dashboard</h1>
-            <p class="text-slate-400 text-sm mt-0.5">Browse and manage published posts</p>
+            <h1 class="text-2xl font-bold text-slate-900">Blogs</h1>
+            <p class="text-slate-400 text-sm mt-0.5" id="page-subtitle">Discover published posts</p>
         </div>
-        <!-- Search bar -->
-        <div class="relative w-full sm:w-72">
-            <svg class="absolute left-3 top-3 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/>
-            </svg>
-            <input id="search-input" type="text" placeholder="Search posts..."
-                class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:border-indigo-400 transition-colors" />
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+            <!-- Write New Blog: only revealed for logged-in users via JS -->
+            <button id="write-blog-btn" onclick="openNewPostModal()"
+                class="hidden items-center gap-2 btn-primary text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-indigo-100 whitespace-nowrap">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+                Write New Blog
+            </button>
+            <!-- Search bar -->
+            <div class="relative w-full sm:w-64">
+                <svg class="absolute left-3 top-3 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/>
+                </svg>
+                <input id="search-input" type="text" placeholder="Search posts..."
+                    class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:border-indigo-400 transition-colors" />
+            </div>
         </div>
     </div>
 </div>
 
 <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-
-    <!-- Stats Bar -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
-        <div class="bg-white rounded-2xl border border-slate-100 p-5">
-            <p class="text-xs font-medium text-slate-400 uppercase tracking-widest mb-1">Total Posts</p>
-            <p id="stat-total" class="text-3xl font-bold text-slate-900">—</p>
-        </div>
-        <div class="bg-white rounded-2xl border border-slate-100 p-5">
-            <p class="text-xs font-medium text-slate-400 uppercase tracking-widest mb-1">Published</p>
-            <p id="stat-published" class="text-3xl font-bold text-indigo-600">—</p>
-        </div>
-        <div class="bg-white rounded-2xl border border-slate-100 p-5">
-            <p class="text-xs font-medium text-slate-400 uppercase tracking-widest mb-1">Drafts</p>
-            <p id="stat-drafts" class="text-3xl font-bold text-slate-400">—</p>
-        </div>
-        <div class="bg-white rounded-2xl border border-slate-100 p-5">
-            <p class="text-xs font-medium text-slate-400 uppercase tracking-widest mb-1">Authors</p>
-            <p id="stat-authors" class="text-3xl font-bold text-purple-600">—</p>
-        </div>
-    </div>
 
     <!-- Filter Tabs -->
     <div class="flex items-center gap-2 mb-6">
@@ -54,8 +41,9 @@
             class="px-4 py-1.5 rounded-full text-sm font-medium bg-indigo-600 text-white transition-all">All</button>
         <button onclick="filterPosts('published')" id="tab-published"
             class="px-4 py-1.5 rounded-full text-sm font-medium text-slate-500 hover:bg-slate-100 transition-all">Published</button>
+        <!-- Drafts tab: only shown to logged-in users via JS -->
         <button onclick="filterPosts('draft')" id="tab-draft"
-            class="px-4 py-1.5 rounded-full text-sm font-medium text-slate-500 hover:bg-slate-100 transition-all">Drafts</button>
+            class="hidden px-4 py-1.5 rounded-full text-sm font-medium text-slate-500 hover:bg-slate-100 transition-all">My Drafts</button>
     </div>
 
     <!-- Loading Skeleton -->
@@ -84,14 +72,6 @@
         <h3 class="text-lg font-semibold text-slate-700 mb-1">No posts yet</h3>
         <p class="text-slate-400 text-sm">Be the first to publish something amazing.</p>
     </div>
-
-    <!-- New Post Modal Trigger -->
-    <button onclick="openNewPostModal()"
-        class="fixed bottom-8 right-8 btn-primary w-14 h-14 rounded-full text-white shadow-xl shadow-indigo-200 flex items-center justify-center hover:scale-105 transition-transform">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-        </svg>
-    </button>
 </div>
 
 <!-- New Post Modal -->
@@ -130,9 +110,60 @@
                     <option value="published">Published</option>
                 </select>
             </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1.5">Tags <span class="text-slate-400 font-normal">(comma separated)</span></label>
+                <input id="post-tags" type="text" placeholder="django, python, tutorial"
+                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-indigo-400 transition-colors" />
+            </div>
             <button type="submit"
                 class="btn-primary w-full py-3 rounded-xl text-white font-semibold text-sm">
                 Publish Post
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Close modal on backdrop click -->
+
+<!-- Edit Post Modal -->
+<div id="edit-post-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center px-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-slate-900">Edit Post</h2>
+            <button onclick="closeEditModal()" class="text-slate-400 hover:text-slate-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <form id="edit-post-form" class="space-y-4">
+            <input type="hidden" id="edit-post-id" />
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1.5">Title</label>
+                <input id="edit-post-title" type="text" placeholder="Your post title..."
+                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-indigo-400 transition-colors" required />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1.5">Content</label>
+                <textarea id="edit-post-body" rows="5" placeholder="Write your post content here..."
+                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-indigo-400 transition-colors resize-none"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1.5">Status</label>
+                <select id="edit-post-status"
+                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-indigo-400 transition-colors">
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1.5">Tags <span class="text-slate-400 font-normal">(comma separated)</span></label>
+                <input id="edit-post-tags" type="text" placeholder="django, python, tutorial"
+                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-indigo-400 transition-colors" />
+            </div>
+            <button type="submit"
+                class="btn-primary w-full py-3 rounded-xl text-white font-semibold text-sm">
+                Save Changes
             </button>
         </form>
     </div>

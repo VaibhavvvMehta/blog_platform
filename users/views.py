@@ -16,13 +16,20 @@ class RegisterUser(generics.CreateAPIView):
     serializer_class=UserRegistrationSerializers
 
 class ProfileView(APIView):
-    permission_class=[IsAuthenticated]
+    permission_classes=[IsAuthenticated]
     def get(self,request):
         serializer=UserRegistrationSerializers(request.user)
         return Response(serializer.data)
-    
+
+    def patch(self,request):
+        serializer=UserRegistrationSerializers(request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
 class LogoutView(APIView):
-    permission_class=[IsAuthenticated] 
+    permission_classes=[IsAuthenticated] 
     def post(self,request):
         request.user.auth_token.delete()
         return Response({"message":"Logged out successfully"})
