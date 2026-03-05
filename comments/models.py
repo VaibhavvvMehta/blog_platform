@@ -17,7 +17,9 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name="comments"
     ) 
-
+    
+    ## As if parent=null then it is a comment
+    # parent=comment.id then it is reply 
     parent=models.ForeignKey(
         "self",
         on_delete=models.CASCADE,
