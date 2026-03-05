@@ -35,13 +35,19 @@ class PostViewSet(ModelViewSet):
         serializer.save(author=self.request.user)
 
     def get_queryset(self):
-        user=self.request.user
-         
-        ## All can see published posts 
+
+        queryset = Post.objects.select_related(
+            "author"
+        ).prefetch_related(
+            "tags"
+        )
+
+        user = self.request.user
+        ##all can see the published posts
         if not user.is_authenticated:
-            return Post.objects.filter(status="published")
-        
-        return Post.objects.filter(
+            return queryset.filter(status="published")
+
+        return queryset.filter(
             Q(status="published") | Q(author=user)
         )
 
