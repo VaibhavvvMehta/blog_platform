@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}BlogSpace — Share Your Ideas{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-24 px-4">
+    <div class="absolute top-0 left-0 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40 translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="relative max-w-4xl mx-auto text-center">
+        <span class="inline-block bg-indigo-100 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full mb-6 uppercase tracking-widest">
+            A Platform for Writers
+        </span>
+        <h1 class="text-5xl sm:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
+            Write. Share.<br>
+            <span class="gradient-text">Inspire.</span>
+        </h1>
+        <p class="text-lg text-slate-500 max-w-xl mx-auto mb-10">
+            BlogSpace is your open canvas. Publish articles, discover stories, and connect with a community of curious minds.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/register/" class="btn-primary text-white px-8 py-3.5 rounded-xl text-base font-semibold shadow-lg shadow-indigo-200">
+                Start Writing Free
+            </a>
+            <a href="/login/" class="bg-white border border-slate-200 text-slate-700 px-8 py-3.5 rounded-xl text-base font-semibold hover:bg-slate-50 transition-colors shadow-sm">
+                Sign In
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 px-4 bg-white">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-14">
+            <h2 class="text-3xl font-bold text-slate-900 mb-3">Everything you need to publish</h2>
+            <p class="text-slate-500">Simple tools, powerful results.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 card-hover">
+                <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-slate-800 mb-2">Rich Editor</h3>
+                <p class="text-slate-500 text-sm">Write and format your thoughts with an intuitive, distraction-free editor.</p>
+            </div>
+            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 card-hover">
+                <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-slate-800 mb-2">Tags & Discovery</h3>
+                <p class="text-slate-500 text-sm">Tag your posts so the right readers can find your work effortlessly.</p>
+            </div>
+            <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50 card-hover">
+                <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-slate-800 mb-2">Comments & Replies</h3>
+                <p class="text-slate-500 text-sm">Spark conversations with threaded comments and community feedback.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Banner -->
+<section class="py-20 px-4 bg-gradient-to-r from-indigo-600 to-purple-600">
+    <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Ready to share your story?</h2>
+        <p class="text-indigo-200 mb-8">Join thousands of writers on BlogSpace today — it's completely free.</p>
+        <a href="/register/" class="bg-white text-indigo-700 font-semibold px-8 py-3.5 rounded-xl hover:bg-indigo-50 transition-colors shadow-lg">
+            Create Your Account
+        </a>
+    </div>
+</section>
+{% endblock %}
