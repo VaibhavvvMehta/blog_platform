@@ -4,11 +4,10 @@ from tags.models import Tag
 
 class PostSerializer(serializers.ModelSerializer):
     author=serializers.StringRelatedField(read_only=True)
-    tags = serializers.SlugRelatedField(
-    many=True,
-    slug_field="name",
-    queryset=Tag.objects.all()
-) 
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Tag.objects.all()
+    )
     class Meta:
         model = Post
         fields = [

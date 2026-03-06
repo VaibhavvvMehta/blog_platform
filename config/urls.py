@@ -24,7 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     # All api urls
-    path("api/token/", obtain_auth_token),
+    path("api/token/", obtain_auth_token,name="api-token-auth"),
     path("api/users/", include("users.urls")),
     path("api/posts/", include("posts.urls")),
     path("api/comments/", include("comments.urls")),
