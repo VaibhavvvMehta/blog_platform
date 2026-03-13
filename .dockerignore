@@ -1,11 +1,51 @@
+# Git
+.git
+.gitignore
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment variables
 .env
-.git
-.gitignore
-.venv
-venv
-htmlcov
-.pytest_cache
+.env.*
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# Django files
+*.log
+*.sqlite3
+db.sqlite3
+
+# IDE / Editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+tests/
+coverage/
+
+# Node (if frontend exists later)
+node_modules/
+
+# Docker files not needed in image
+docker-compose.yml
+README.md
+
+# Temporary files
+*.tmp
+*.swp

@@ -33,7 +33,7 @@ A full-stack blog platform built with **Django** and **Django REST Framework**. 
 - **Pagination** – all list endpoints are paginated (10 items per page)
 - **Media uploads** – user avatars stored under `media/`
 - **Admin panel** – full Django admin for all models
-- **Docker** – single-command spin-up with Docker Compose
+- **Docker** – reproducible local stack (Django + Postgres + Redis)
 
 ---
 
@@ -107,11 +107,33 @@ python manage.py createsuperuser
 ### Docker Setup
 
 ```bash
-# Build and start the container
-docker-compose up --build
+# 1) Create .env (copy/paste this whole block)
+cat > .env <<'EOF'
+POSTGRES_DB=mydb
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin123
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+REDIS_URL=redis://redis:6379/1
+DEBUG=True
+SECRET_KEY=supersecretkey
+DJANGO_SUPERUSER_EMAIL=admin@example.com
+DJANGO_SUPERUSER_USERNAME=admin
+DJANGO_SUPERUSER_PASSWORD=admin123
+EOF
+
+# 2) Build and start all services
+docker compose up --build -d
+
+# 3) Follow startup logs (migrations + superuser bootstrap)
+docker compose logs -f web
 ```
 
-The API will be available at `http://localhost:8000`.
+After startup:
+
+- App: `http://localhost:8000`
+- Admin: `http://localhost:8000/admin/`
+- Superuser login: values from `DJANGO_SUPERUSER_EMAIL` and `DJANGO_SUPERUSER_PASSWORD`
 
 ---
 
@@ -121,9 +143,17 @@ The project reads a few values from the environment. For local development you c
 
 | Variable | Default | Description |
 |----------|---------|-------------|
+| `POSTGRES_DB` | `mydb` | Postgres database name |
+| `POSTGRES_USER` | `admin` | Postgres username |
+| `POSTGRES_PASSWORD` | `admin123` | Postgres password |
+| `POSTGRES_HOST` | `db` | Postgres host (Docker service name) |
+| `POSTGRES_PORT` | `5432` | Postgres port |
+| `REDIS_URL` | `redis://redis:6379/1` | Redis connection URL |
 | `SECRET_KEY` | (insecure dev key) | Django secret key – **change in production** |
 | `DEBUG` | `True` | Set to `False` in production |
-| `ALLOWED_HOSTS` | `[]` | Comma-separated list of allowed hostnames |
+| `DJANGO_SUPERUSER_EMAIL` | `admin@example.com` | Auto-created Django admin email at container startup |
+| `DJANGO_SUPERUSER_USERNAME` | `admin` | Auto-created Django admin username |
+| `DJANGO_SUPERUSER_PASSWORD` | `admin123` | Auto-created Django admin password |
 
 > **Important:** Never commit a production `SECRET_KEY` to version control.
 
